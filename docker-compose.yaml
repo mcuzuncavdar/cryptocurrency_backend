@@ -1,0 +1,34 @@
+version: "3"
+
+networks:
+  crypto_currency:
+
+services:
+  #NodeJS
+  crypto_currency_nodejs:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: crypto_currency_nodejs
+    ports:
+      - "9053:8080"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - crypto_currency
+    restart: always
+
+  #MongoDB
+  crypto_currency_mongodb:
+    image: mongo
+    container_name: crypto_currency_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: exchange
+      MONGO_INITDB_ROOT_PASSWORD: Abcde123!*
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "9052:27017"
+    networks:
+      - crypto_currency
+    restart: unless-stopped
