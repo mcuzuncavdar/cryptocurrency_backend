@@ -60,7 +60,7 @@ router.post('/favorite', authApi, tryCatch(async (req, res) => {
   try {
     const {_id, email} = req.user;
     const {favorites} = req.body;
-    let currencyFavorites = await CurrencyFavorite.findOne().populate({
+    let currencyFavorites = await CurrencyFavorite.findOne({'User': _id}).populate({
       path: 'User',
       match: {_id}
     });
